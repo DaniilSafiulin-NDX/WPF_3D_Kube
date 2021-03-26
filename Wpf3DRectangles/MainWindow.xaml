@@ -1,0 +1,144 @@
+﻿<Window x:Class="Wpf3DRectangles.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:f="clr-namespace:Wpf3DRectangles.MyCode"
+        mc:Ignorable="d"
+        Title="3D координаты - interestprograms.ru" Height="500" Width="500">
+    <Grid x:Name="mainGrid" Background="Black" >
+        <Viewport3D>
+            <Viewport3D.Camera>
+                <PerspectiveCamera x:Name="perCamera" Position="0,1,7" LookDirection="0,-20,-100" FieldOfView="30" UpDirection="0,1,0" >
+                    <PerspectiveCamera.Transform>
+                        <RotateTransform3D>
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D Axis="0,1,0" x:Name="rotateCamera"></AxisAngleRotation3D>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </PerspectiveCamera.Transform>
+                </PerspectiveCamera>
+                <!--<OrthographicCamera Position="0,1,7" LookDirection="0,-20,-100" UpDirection="0,1,0" Width="3">
+                    <OrthographicCamera.Transform>
+                        <RotateTransform3D>
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D Axis="0,1,0" x:Name="rotateCamera"></AxisAngleRotation3D>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </OrthographicCamera.Transform>
+                </OrthographicCamera>-->
+            </Viewport3D.Camera>
+
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <Model3DGroup>
+                        <AmbientLight Color="#FF444444"/>
+                        <DirectionalLight Color="White" Direction="1,0,-1"/>
+                    </Model3DGroup>
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+
+            <ModelVisual3D x:Name="groupWorld">
+                <ModelVisual3D x:Name="groupRectangles">
+                    <f:Rectangle3D SizeX="0.5" SizeY="0.5" Front="Aqua" Position="-0.7, 0, 0" Back="Aqua">
+                        <f:Rectangle3D.Transform>
+                            <RotateTransform3D CenterX="-0.7" CenterY="0" CenterZ="0">
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D    Axis="1,0,0" Angle="0"  x:Name="rotateLocal1"/>
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                        </f:Rectangle3D.Transform>
+                    </f:Rectangle3D>
+                    <f:Rectangle3D SizeX="0.5" SizeY="0.5" Front="Yellow" Position="0.7, 0, 0" Back="Yellow">
+                        <f:Rectangle3D.Transform>
+                            <RotateTransform3D CenterX="0.7" CenterY="0" CenterZ="0">
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D    Axis="0,1,0" Angle="0"  x:Name="rotateLocal2"/>
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                        </f:Rectangle3D.Transform>
+                    </f:Rectangle3D>
+                    <ModelVisual3D.Transform>
+                        <Transform3DGroup>
+                            <TranslateTransform3D OffsetX="0.4"/>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D Axis="0,1,0" Angle="0"  x:Name="rotateGroup" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                            <TranslateTransform3D OffsetX="-0.4"/>
+                        </Transform3DGroup>
+                    </ModelVisual3D.Transform>
+                </ModelVisual3D>
+
+                <f:Rectangle3D x:Name="rectangleEarth" SizeX="2" SizeY="5" Front="#FFECA206" Position="0, 0, -0.25">
+                    <f:Rectangle3D.Transform>
+                        <RotateTransform3D CenterX="-0.7" CenterY="0" CenterZ="0">
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D    Axis="1,0,0" Angle="-90"/>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </f:Rectangle3D.Transform>
+                </f:Rectangle3D>
+
+                <ModelVisual3D.Transform>
+                    <Transform3DGroup>
+                        <RotateTransform3D CenterX="0" CenterY="0" CenterZ="0" >
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D Axis="0,1,0" Angle="0" x:Name="rotateWorld"/>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </Transform3DGroup>
+                </ModelVisual3D.Transform>
+            </ModelVisual3D>
+        </Viewport3D>
+
+        <Grid x:Name="gridStart">
+            <Button Height="30" Width="80" HorizontalAlignment="Left" Click="Button_Click" VerticalAlignment="Top" Content="World">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetName="rotateWorld" Storyboard.TargetProperty="Angle" From="0" To="1080" Duration="0:0:5"></DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Height="30" Width="80" HorizontalAlignment="Left" Click="Button_Click" Margin="90,0,0,0" VerticalAlignment="Top" Content="Camera">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetName="rotateCamera" Storyboard.TargetProperty="Angle" From="0" To="1080" Duration="0:0:5"></DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Height="30" Width="80" HorizontalAlignment="Right" Click="Button_Click" VerticalAlignment="Top" Content="Local">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetName="rotateLocal1" Storyboard.TargetProperty="Angle" From="0" To="2520" Duration="0:0:5"></DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="rotateLocal2" Storyboard.TargetProperty="Angle" From="0" To="720" Duration="0:0:5"></DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Height="30" Width="80" HorizontalAlignment="Right" Click="Button_Click" VerticalAlignment="Top" Margin="0,0,90,0" Content="Group">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetName="rotateGroup" Storyboard.TargetProperty="Angle" From="0" To="-1080" Duration="0:0:5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
